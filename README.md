@@ -7,12 +7,12 @@ La idea principal del proyecto consiste en realizar una red social donde puedas 
 
 Integrantes:
 
-  Andre Yahir Gonzalez Cuevas
+  * Andre Yahir Gonzalez Cuevas
   
-  Carlos Emiliano Rodríguez Núñez
+  * Carlos Emiliano Rodríguez Núñez
 
 Conexión MongoDB
 
-Usuario: andre_owner
+* Usuario: andre_owner, emi_owner
 
-Contraseña: proyecto1desarrollo
+* Contraseña: proyecto1desarrollo
