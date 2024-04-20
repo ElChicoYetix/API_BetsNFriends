@@ -34,7 +34,13 @@
     <h1>BETS 'N' FRIENDS</h1>
     <div>
       <a href="/login" class="login">Iniciar Sesión</a> | 
-      <a href="/register" class="login">Registrarse</a>
+      <a href="/register" class="login">Registrarse</a> |
+      <!-- Botón para subir imagen a Amazon S3 -->
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <label for="imageUpload">Subir Imagen</label>
+        <input type="file" id="imageUpload" name="image" accept="image/*">
+        <button type="submit">Subir</button>
+      </form>
     </div>
   </div>
 

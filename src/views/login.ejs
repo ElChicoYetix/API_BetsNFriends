@@ -37,7 +37,7 @@
       width: 100%;
       padding: 10px;
       margin: 10px 0;
-      border: 1px solid #ccc;
+      border: 1px sólido #ccc;
       border-radius: 5px;
       box-sizing: border-box;
     }
@@ -46,8 +46,8 @@
       width: 100%;
       padding: 10px;
       background-color: #ff5733;
-      color: white;
-      border: none;
+      color: blanco;
+      border: ninguno;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -60,7 +60,7 @@
 <body>
   <!-- Barra de navegación -->
   <div class="header">
-    <div>Bienvenido!</div>
+    <div>¡Bienvenido!</div>
     <h1>BETS 'N' FRIENDS</h1>
     <div>
       <a href="/" class="login">Inicio</a> <!-- Enlace a la página de inicio -->
@@ -71,12 +71,16 @@
   <div class="form-container">
     <h2>Iniciar Sesión</h2>
     <form action="/login" method="POST">
-      <input type="text" name="usuario" placeholder="Ingresar usuario" required>
-      <input type="email" name="email" placeholder="Ingresar correo" required>
-      <br>
-      <br>
+      <input type="text" id="usuario" name="usuario" placeholder="Ingresar usuario" required>
+      <input type="password" id="password" name="password" placeholder="Ingresar contraseña" required>
       <button type="submit">Iniciar Sesión</button>
     </form>
+    <hr> <!-- Línea divisoria -->
+    <div>
+      <a href="/google">
+        <button>Iniciar Sesión con Google</button>
+      </a>
+    </div>
   </div>
 </body>
 </html>
