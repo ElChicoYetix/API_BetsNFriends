@@ -28,7 +28,12 @@ const userController = {
 export default userController;
 
 export const getAllUsers = (req: Request, res: Response) => {
-    res.send('Obteniendo todos los usuarios');
+    // res.send('Obteniendo todos los usuarios');
+    User.find({}).then((users: any) => {
+        res.send(users);
+    }).catch((error: any) => {
+        res.status(500).send('Error al obtener usuarios');
+    });
 };
 
 export const getUserById = (req: Request, res: Response) => {

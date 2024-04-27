@@ -1,6 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import { getIndexPage } from '../controllers/indexController';
+import { confirmationController } from '../controllers/confirmationController';
 
 const router = express.Router();
 
@@ -31,5 +32,13 @@ router.get('/google/callback',
 router.get('/register', (req, res) => {
     res.render('register');
 });
+
+// Página de Usuario
+router.get('/usuario', (req, res) => {
+    res.render('usuario');
+});
+
+// Confirmacion de Registro
+router.get('/confirmation', confirmationController);
 
 export default router;

@@ -1,7 +1,10 @@
 import express, { Request, Response } from "express";
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
 import path from 'path'; 
+
+dotenv.config();
 
 import { loginController } from "./controllers/loginController";
 import { registerController } from "./controllers/registerController";
@@ -11,10 +14,12 @@ import indexRoutes from './routes/index';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
 
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Configuración de body-parser para analizar solicitudes de formularios codificadas en urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // convert data into json format
 app.use(express.json());
@@ -48,7 +53,7 @@ app.post('/register', registerController);
 app.post('/login', loginController);
 
 // Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI!)
   .then(() => {
     console.log('Conexión a la base de datos exitosa');
     app.listen(port, () => {

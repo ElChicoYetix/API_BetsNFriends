@@ -1,0 +1,85 @@
+<!-- views/confirmation.ejs -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmación de Registro</title>
+  <style>
+    /* Estilos CSS */
+    body {
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilos CSS */
+    .header {
+      background-color: red;
+      color: white;
+      display: flex;
+      justify-content: center; /* Centro horizontal */
+      align-items: center;
+      padding: 10px;
+    }
+
+    .header h1 {
+      margin: 0;
+    }
+
+    .login {
+      text-decoration: none;
+      color: white;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 24px;
+      color: green;
+    }
+
+    .back-button {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      background-color: #ff0000; /* Color rojo */
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease; /* Transición de color al pasar el mouse */
+    }
+
+    .back-button:hover {
+      background-color: #cc0000; /* Color rojo más oscuro al pasar el mouse */
+    }
+    
+  </style>
+</head>
+<body>
+  <!-- Encabezado -->
+  <div class="header">
+    <h1>BETS 'N' FRIENDS</h1>
+  </div>
+
+  <!-- Contenido de la página -->
+  <div class="container">
+    <div class="message">
+      ¡Usuario registrado correctamente!
+    </div>
+    <a href="/" class="back-button">Regresar al Inicio</a>
+  </div>
+
+</body>
+</html>

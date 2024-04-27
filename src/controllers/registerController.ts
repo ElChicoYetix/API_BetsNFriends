@@ -3,18 +3,25 @@ import bcrypt from 'bcrypt';
 import collection from "../models/login";
 
 export async function registerController(req: Request, res: Response) {
+    // Registro de los datos del formulario recibidos en el cuerpo de la solicitud
+    console.log(req.body);
+
     const data = {
-        usuario: req.body.username,
+        name: req.body.name,
+        usuario: req.body.usuario,
         email: req.body.email,
         password: req.body.password,
         role: req.body.role
     }
 
-    // Check if the username already exists in the database
-    const existingUser = await collection.findOne({ usuario: data.usuario });
+    console.log('Estamos buscando: ', data);
 
+    // Check if the username already exists in the database
+    const existingUser = await collection.findOne({ email: data.email });
+
+    console.log('Respuesta usuario:  ', existingUser);
     if (existingUser) {
-        res.send('El usuario ya existe, elige otro nombre');
+        res.send('El correo ya existe, elige otro');
     } else {
         // Hash the password using bcrypt
         const saltRounds = 10; // Number of salt rounds for bcrypt
@@ -25,6 +32,7 @@ export async function registerController(req: Request, res: Response) {
         try {
             const userdata = await collection.create(data);
             console.log(userdata);
+            res.redirect('/confirmation');
         } catch (error) {
             console.error("Error al crear el usuario:", error);
             res.status(500).send("Internal Server Error");

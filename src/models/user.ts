@@ -3,9 +3,9 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
     googleId: string;
-    displayName: string;
+    usuario: string;
     email: string;
-    // Otros campos si es necesario
+    role: string;
 }
 
 const userSchema = new Schema({
@@ -14,7 +14,7 @@ const userSchema = new Schema({
         required: true,
         unique: true,
     },
-    displayName: {
+    usuario: {
         type: String,
         required: true,
     },

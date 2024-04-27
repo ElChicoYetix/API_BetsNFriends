@@ -9,9 +9,9 @@ export const googleAuth = (app: Application) => {
     passport.use(
         new GoogleStrategy(
           {
-            clientID: process.env.GOOGLE_ID,
-            clientSecret: process.env.GOOGLE_SECRET,
-            callbackURL: process.env.GOOGLE_CALLBACK_URL,
+            clientID: process.env.GOOGLE_ID!,
+            clientSecret: process.env.GOOGLE_SECRET!,
+            callbackURL: process.env.GOOGLE_CALLBACK_URL!,
           },
           async (accessToken, refreshToken, profile, cb) => {
             try {
@@ -21,7 +21,7 @@ export const googleAuth = (app: Application) => {
                 if (!user) {
                     user = new User({
                         googleId: profile.id,
-                        displayName: profile.displayName,
+                        usuario: profile.displayName,
                         email: profile.emails?.[0]?.value, // Primer correo
                     });
 
@@ -30,14 +30,14 @@ export const googleAuth = (app: Application) => {
 
                 cb(null, user);
             } catch (error) {
-                cb(error);
+                cb(error as string);
             }
           }
         )
     );
 
-    passport.serializeUser((user: IUser, cb) => {
-        cb(null, user._id); // Serializa por ID
+    passport.serializeUser((user, cb) => {
+        cb(null, (user as IUser)._id); // Serializa por ID
     });
 
     passport.deserializeUser(async (id, cb) => {
@@ -52,7 +52,7 @@ export const googleAuth = (app: Application) => {
     app.use(session({
         resave: false,
         saveUninitialized: true,
-        secret: process.env.SECRET_KEY,
+        secret: process.env.SECRET_KEY!,
     }));
 
     app.use(passport.initialize());
