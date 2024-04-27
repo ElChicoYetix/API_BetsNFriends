@@ -1,0 +1,51 @@
+<!-- views/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BETS 'N' FRIENDS</title>
+  <style>
+    /* Estilos CSS */
+    .header {
+      background-color: red;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .header h1 {
+      margin: 0;
+    }
+
+    .login {
+      text-decoration: none;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Encabezado -->
+  <div class="header">
+    <div>Bienvenido!</div>
+    <h1>BETS 'N' FRIENDS</h1>
+    <div>
+      <a href="/login" class="login">Iniciar Sesión</a> | 
+      <a href="/register" class="login">Registrarse</a> |
+      <a href="/usuario" class="login">Usuario</a> 
+      <!-- Botón para subir imagen a Amazon S3 -->
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <label for="imageUpload">Subir Imagen</label>
+        <input type="file" id="imageUpload" name="image" accept="image/*">
+        <button type="submit">Subir</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenido de la página -->
+
+</body>
+</html>

@@ -4,7 +4,9 @@
         "outDir": "./dist",
         "noImplicitAny": true,
         "module": "NodeNext",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true
     },
     "include": [
         "src/**/*.ts"
