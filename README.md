@@ -16,3 +16,6 @@ Conexión MongoDB
 * Usuario: andre_owner, emi_owner
 
 * Contraseña: proyecto1desarrollo
+
+Para correrlo, utiliza
+localhost:3000/inicio
