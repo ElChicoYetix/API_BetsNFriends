@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bets 'n' Friends | Chat</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <!-- Carga la librería Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body {
+            font-size: 18px;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 10px;
+        }
+
+        #container {
+            max-width: 700px; /* Ancho aumentado para mayor espacio */
+            margin: 0 auto;
+            padding: 20px; /* Padding más grande para un diseño más amplio */
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
+        }
+
+        h1 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+            float: right;
+            font-size: 14px;
+        }
+
+        a:hover {
+            color: #2980b9;
+        }
+
+        #messages {
+            height: 500px;
+            overflow-y: auto;
+            border: sólido 1px #bdc3c7;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #ecf0f1;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column; /* Cambié a columna para alinear los elementos verticalmente */
+            gap: 10px; /* Espacio entre elementos */
+        }
+
+        form input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: sólido 1px #bdc3c7;
+            background-color: white;
+            width: 100%; /* El campo de texto ocupa todo el ancho */
+        }
+
+        form .select-container {
+            display: flex; /* Flexbox para alinear elementos horizontalmente */
+            justify-content: space-between; /* Espacio entre elementos */
+            gap: 10px; /* Espacio entre elementos */
+        }
+
+        form select {
+            flex: 1; /* Acomoda las barras desplegables igualmente */
+            padding: 8px;
+            border-radius: 5px;
+            border: sólido 1px #bdc3c7;
+            background-color: white;
+        }
+
+        form .button-container {
+            display: flex; /* Flexbox para los botones */
+            justify-content: space-between; /* Espacio entre los botones */
+        }
+
+        form .chat-button, form .bet-button {
+            flex: 1; /* Los botones ocupan igual espacio */
+            padding: 12px; /* Padding mayor para que sean más grandes */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        form .chat-button {
+            background-color: #3498db; /* Color para el botón de chat */
+        }
+
+        form .chat-button:hover {
+            background-color: #2980b9; /* Color para el botón de chat al pasar el ratón */
+        }
+
+        form .bet-button {
+            background-color: #2ecc71; /* Color para el botón de apuesta */
+        }
+
+        form .bet-button:hover {
+            background-color: #27ae60; /* Color para el botón de apuesta al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+    <h1>Bets 'n' Friends</h1>
+    <div id="container">
+        <h2>
+            Hola, <span id="user"></span>
+            <a href="/">Volver a la página de inicio</a>
+        </h2>
+        <div id="messages"></div>
+        <form>
+            <input class="form-control" type="text" name="newMessage" placeholder="Escribe tu mensaje aquí..."> <!-- Campo de texto arriba -->
+            
+            <!-- Contenedor para los selectores -->
+            <div class="select-container">
+                <select name="team" class="form-control">
+                    <option value="Team 1 Away">Team 1 Away</option>
+                    <option value="Team 2 Home">Team 2 Home</option>
+                </select>
+                <select name="bet" class="form-control">
+                    <!-- Opciones de 1 a 25 -->
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                </select>
+            </div>
+
+            <!-- Contenedor para los botones -->
+            <div class="button-container">
+                <button class="bet-button" type="submit">Enviar Apuesta</button> <!-- Botón para enviar apuesta -->
+                <button class="chat-button" type="button">Chat</button> <!-- Botón para enviar solo chat -->
+                
+            </div>
+        </form>
+    </div>
+    <script src="/chat.js"></script>
+</body>
+</html>

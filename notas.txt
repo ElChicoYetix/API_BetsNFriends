@@ -1,0 +1,5 @@
+Token inicio de sesion de google
+Chat tiene q ser con socket
+
+Preguntas al profe
+Casi lo de aws

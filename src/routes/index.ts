@@ -13,18 +13,19 @@ router.get('/login', (req, res) => {
     res.render('login');
 });
 
+
 // Iniciar sesión con Google
 router.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email'], // Permisos solicitados a Google
 }));
 
 // Callback de autenticación de Google
-router.get('/google/callback',
+router.get('/google/callback', // Cambia esta línea
     passport.authenticate('google', {
         failureRedirect: '/login', // Redirige a la página de login si falla
     }),
     (req, res) => {
-        res.redirect('/'); // Redirige a la página de inicio después de autenticarse
+        res.redirect('/inicio/confirmation'); // Redirige a la página de inicio después de autenticarse con google
     }
 );
 
