@@ -1,3 +1,4 @@
+// src/controllers/loginController
 import { Request, Response } from "express";
 import bcrypt from 'bcrypt';
 import collection from "../models/login";

@@ -3,8 +3,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import path from 'path';
-import session from 'express-session'; 
-import passport from 'passport'; 
+import session from 'express-session'; // Importa express-session
+import passport from 'passport'; // Importa passport
 import { Server } from 'socket.io';
 import { createServer } from 'http';
 import { loginController } from "./controllers/loginController";
@@ -13,23 +13,31 @@ import { googleAuth } from './middlewares/google-auth';
 import indexRoutes from './routes/index';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
-import fs from 'fs'; 
-import BetMessage from './models/BetMessage';
+import betsRoutes from './routes/betsRoutes'; // Nueva ruta para apuestas
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Configuración para procesar datos POST
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Rutas
+app.use('/inicio', indexRoutes);
+app.use('/bets', betsRoutes); // Nueva ruta para guardar apuestas
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret',
   resave: false,
-  saveUninitialized: false, 
+  saveUninitialized: false, // Para sesiones auténticas solo cuando el usuario inicia sesión
 }));
 
 // Inicializa Passport
 app.use(passport.initialize());
 app.use(passport.session());
 googleAuth(app);
+
 
 // Configuración de archivos estáticos
 app.use(express.static(path.join(__dirname, '..', 'public'))); 
@@ -48,15 +56,17 @@ app.use('/auth', authRoutes);
 // Establece el motor de vista a EJS y define la ubicación de las vistas
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+// Crea un servidor HTTP para usar con Socket.io
+// Inicia el servidor
 
 // Crear un servidor HTTP para usar con Socket.io
 const server = createServer(app);
 const io = new Server(server);
 const rooms = [
-    { id: 'BayernRMadrid', name: 'Bayern @ R. Madrid' },
-    { id: 'AstrosYankees', name: 'Astros @ Yankees' },
-    { id: 'PacersKnicks', name: 'Pacers @ Knicks' },
-    { id: 'BruinsPanthers', name: 'Bruins @ Panthers' }
+    { id: '1', name: 'Bayern @ R. Madrid' },
+    { id: '2', name: 'Astros @ Yankees' },
+    { id: '3', name: 'Pacers @ Knicks' },
+    { id: '4', name: 'Bruins @ Panthers' }
 ];
 
 // List available rooms
@@ -75,7 +85,6 @@ app.get('/chat/:id', (req, res) => {
 // Escuchar conexiones de clientes
 io.on('connection', (socket) => {
   console.log('A new user connected');
-
   socket.on('newUser', (data) => {
       socket.data.user = data.user; 
       socket.data.chat = data.chat;
@@ -85,35 +94,6 @@ io.on('connection', (socket) => {
   socket.on('newMessage', (data) => {
       socket.to('chat-' + socket.data.chat).emit('newMessage', data);
   });
-  socket.on('newBetMessage', (data) => {
-    const fileName = `chat_${socket.data.chat}.txt`;
-    const filePath = path.join(__dirname, '..', 'chat-logs', fileName);
-    const messageContent = `${new Date().toISOString()} - ${data.user}: ${data.message}\n`;
-  
-    // Append the message to a file
-    fs.appendFile(filePath, messageContent, (err) => {
-        if (err) {
-            console.error('Error writing to file:', err);
-        }
-    });
-  
-    // Create and save a new BetMessage
-    const betMessage = new BetMessage({
-      chatId: socket.data.chat,
-      user: data.user,
-      message: data.message,
-      timestamp: new Date(),
-    });
-  
-    betMessage.save()
-      .then(() => console.log(`Bet message saved to MongoDB. File name: ${fileName}`))
-      .catch((err) => console.error('Error saving bet message to MongoDB:', err));
-  
-    socket.to('chat-' + socket.data.chat).emit('newMessage', data);
-  });
-  
-  
-
   socket.on('disconnect', () => {
       socket.to('chat-' + socket.data.chat).emit('userLeft', { ...socket.data });
   })
@@ -154,3 +134,5 @@ app.post('/register', registerController);
 app.post('/login', loginController);
 
 app.use('/views', express.static(path.join(__dirname, 'views')));
+
+// express session middleware

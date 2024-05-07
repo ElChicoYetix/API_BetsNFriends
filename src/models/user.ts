@@ -1,3 +1,4 @@
+// src/models/user.ts
 
 import mongoose, { Schema, Document } from 'mongoose';
 
@@ -30,5 +31,3 @@ const User = mongoose.model<IUser>('User', userSchema);
 
 // Exporta el modelo para que pueda ser importado
 export default User;
-
-

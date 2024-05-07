@@ -1,0 +1,23 @@
+Lakers vs Clippers, 6:30
+Bulls vs Knicks, 8:00
+Heat vs Celtics, 10:00
+Warriors vs Suns, 12:30
+
+
+<div class="partidos">
+    <div class="partido">
+      <p>Bayern @ Real Madrid, 1:00</p>
+      <img src="ruta_a_imagen_del_partido_1" alt="Lakers vs Clippers">
+    </div>
+    <div class="partido">
+      <p>Astros @ Yankees, 5:05</p>
+      <img src="ruta_a_imagen_del_partido_2" alt="Bulls vs Knicks">
+    </div>
+    <div class="partido">
+      <p>Pacers @ Knicks, 6:00</p>
+      <img src="ruta_a_imagen_del_partido_3" alt="Heat vs Celtics">
+    </div>
+    <div class="partido">
+      <p>Bruins @ Panthers, 8:00</p>
+      <img src="ruta_a_imagen_del_partido_4" alt="Warriors vs Suns">
+    </div>

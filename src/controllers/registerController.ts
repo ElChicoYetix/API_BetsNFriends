@@ -1,41 +1,33 @@
-import { Request, Response } from "express";
+// src/controllers/registerController.ts
+import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import collection from "../models/login";
+import collection from '../models/login';
 
 export async function registerController(req: Request, res: Response) {
-    // Registro de los datos del formulario recibidos en el cuerpo de la solicitud
-    console.log(req.body);
-
-    const data = {
-        name: req.body.name,
-        usuario: req.body.usuario,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role
-    }
-
-    console.log('Estamos buscando: ', data);
-
-    // Check if the username already exists in the database
-    const existingUser = await collection.findOne({ email: data.email });
-
-    console.log('Respuesta usuario:  ', existingUser);
-    if (existingUser) {
-        res.send('El correo ya existe, elige otro');
-    } else {
-        // Hash the password using bcrypt
-        const saltRounds = 10; // Number of salt rounds for bcrypt
-        const hashedPassword = await bcrypt.hash(data.password, saltRounds);
-
-        data.password = hashedPassword; // Replace the original password with the hashed one
-
-        try {
-            const userdata = await collection.create(data);
-            console.log(userdata);
-            res.redirect('/confirmation');
-        } catch (error) {
-            console.error("Error al crear el usuario:", error);
-            res.status(500).send("Internal Server Error");
+    try {
+        // Verifica si el usuario ya existe
+        const existingUser = await collection.findOne({ email: req.body.email });
+        if (existingUser) {
+            return res.status(400).send("Usuario ya registrado con este correo");
         }
+
+        // Crea un hash de la contraseña
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        // Crea un nuevo usuario
+        const newUser = new collection({
+            name: req.body.name,
+            usuario: req.body.usuario,
+            email: req.body.email,
+            password: hashedPassword,
+        });
+
+        // Guarda el usuario en la base de datos
+        await newUser.save();
+
+        res.redirect('/inicio/confirmation'); // Redirige a la página de confirmación
+    } catch (error) {
+        console.error("Error al registrar el usuario:", error);
+        res.status(500).send("Error interno del servidor");
     }
 }

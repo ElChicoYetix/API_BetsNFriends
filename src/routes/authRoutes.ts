@@ -1,4 +1,4 @@
-// authRoutes.ts
+// src/routes/authRoutes.ts
 
 import express from 'express';
 import User from '../models/user';

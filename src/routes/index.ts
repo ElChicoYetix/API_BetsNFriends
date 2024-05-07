@@ -1,12 +1,16 @@
+// src/routes/index.ts
+
 import express from 'express';
 import passport from 'passport';
-import { getIndexPage } from '../controllers/indexController';
+import { getOtherIndexPage } from '../controllers/indexController';
 import { confirmationController } from '../controllers/confirmationController';
+import { getRegisterPage } from '../controllers/authController';
+import { registerController } from '../controllers/registerController';
 
 const router = express.Router();
 
 // Página de inicio
-router.get('/', getIndexPage);
+// router.get('/', getOtherIndexPage);
 
 // Página de login con botón para Google
 router.get('/login', (req, res) => {
@@ -19,19 +23,53 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 // Callback de autenticación de Google
-router.get('/google/callback',
+/*
+router.get('/google/callback', // Cambia esta línea
     passport.authenticate('google', {
         failureRedirect: '/login', // Redirige a la página de login si falla
     }),
     (req, res) => {
-        res.redirect('/'); // Redirige a la página de inicio después de autenticarse
+        res.redirect('/inicio/confirmation'); // Redirige a la página de inicio después de autenticarse con google
     }
-);
+);*/
+router.get(
+    '/google/callback',
+    passport.authenticate('google', {
+      successRedirect: '/inicio', // Redireccionar a la página principal después del éxito
+      failureRedirect: '/auth/login', // Redireccionar si falla
+    })
+  );
+  
+  // Ruta para verificar si el usuario está autenticado
+  router.get('/login/success', (req, res) => {
+    if (req.user) {
+      res.status(200).json({
+        error: false,
+        message: 'Successfully Logged In',
+        user: req.user,
+      });
+    } else {
+      res.status(403).json({ error: true, message: 'Not Authorized' });
+    }
+  });
+  
+  // Ruta para cerrar sesión
+  router.get('/logout', (req, res) => {
+    req.logout(() => {
+      res.redirect('/inicio'); // Redireccionar después de cerrar sesión
+    });
+  });
 
+
+
+
+/* Chat termina */
 // Página de registro
 router.get('/register', (req, res) => {
     res.render('register');
 });
+router.get('/register', getRegisterPage); // Esto carga la página de registro
+router.post('/register', registerController); // Esto procesa el registro
 
 // Página de Usuario
 router.get('/usuario', (req, res) => {

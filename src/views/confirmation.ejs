@@ -1,5 +1,4 @@
-<!-- views/confirmation.ejs -->
-
+<!-- src/views/confirmation.ejs -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,11 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirmación de Registro</title>
   <style>
-    /* Estilos CSS */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
     body {
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 0;
+      font-size: 18px;
+      font-family: 'Roboto', sans-serif;
+      color: #34495e;
+      background-color: #ecf0f1;
     }
 
     .container {
@@ -20,26 +21,22 @@
       padding: 20px;
       background-color: #fff;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.16);
     }
 
-    /* Estilos CSS */
     .header {
-      background-color: red;
-      color: white;
+      background-color: #34495e;
+      color: #ecf0f1;
       display: flex;
-      justify-content: center; /* Centro horizontal */
+      justify-content: center;
       align-items: center;
-      padding: 10px;
+      padding: 20px;
+      box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
     }
 
     .header h1 {
       margin: 0;
-    }
-
-    .login {
-      text-decoration: none;
-      color: white;
+      font-size: 2em;
     }
 
     .message {
@@ -54,17 +51,16 @@
       text-align: center;
       margin-top: 20px;
       text-decoration: none;
-      background-color: #ff0000; /* Color rojo */
+      background-color: #2ecc71;
       color: white;
       padding: 10px 20px;
       border-radius: 5px;
-      transition: background-color 0.3s ease; /* Transición de color al pasar el mouse */
+      transition: background-color 0.3s ease;
     }
 
     .back-button:hover {
-      background-color: #cc0000; /* Color rojo más oscuro al pasar el mouse */
+      background-color: #27ae60;
     }
-    
   </style>
 </head>
 <body>
@@ -76,9 +72,9 @@
   <!-- Contenido de la página -->
   <div class="container">
     <div class="message">
-      ¡Usuario registrado correctamente!
+      ¡Bienvenido!
     </div>
-    <a href="/" class="back-button">Regresar al Inicio</a>
+    <a href="/inicio" class="back-button">Regresar al Inicio</a>
   </div>
 
 </body>

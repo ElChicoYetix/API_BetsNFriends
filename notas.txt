@@ -1,0 +1,8 @@
+Casi lo de aws
+Al picarle enviar apuesta, que se guarde con la fecha y se suba a moongo db
+Editar o crear eventos
+Roles de usuario
+Subir apuestas a mongodb
+
+Otros:
+Imagen google
