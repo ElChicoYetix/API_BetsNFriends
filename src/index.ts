@@ -15,16 +15,48 @@ import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
 import fs from 'fs'; 
 import BetMessage from './models/BetMessage';
+import { GridFSBucket, ObjectId } from 'mongodb';
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
+
+
+// Define la ruta de la carpeta
+const logsDir = path.join(__dirname, '..' ,'chat-logs');
+
+// Lee el contenido de la carpeta
+fs.readdir(logsDir, (err, files) => {
+  if (err) {
+    console.error('Ocurrió un error al leer la carpeta:', err);
+    return;
+  }
+
+  // Itera sobre cada archivo
+  files.forEach(file => {
+    // Asegúrate de que el archivo es un .txt
+    if (path.extname(file) === '.txt') {
+      // Define la ruta completa del archivo
+      const filePath = path.join(logsDir, file);
+      // Lee el contenido del archivo
+      fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          console.error(`Ocurrió un error al leer el archivo ${file}:`, err);
+          return;
+        }
+        // Imprime el contenido del archivo
+        console.log(`Contenido del archivo ${file}:\n${data}\n`);
+      });
+    }
+  });
+});
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret',
   resave: false,
   saveUninitialized: false, 
 }));
+
 
 // Inicializa Passport
 app.use(passport.initialize());
@@ -43,7 +75,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/inicio', indexRoutes);
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
-
 
 // Establece el motor de vista a EJS y define la ubicación de las vistas
 app.set('view engine', 'ejs');
@@ -111,8 +142,6 @@ io.on('connection', (socket) => {
   
     socket.to('chat-' + socket.data.chat).emit('newMessage', data);
   });
-  
-  
 
   socket.on('disconnect', () => {
       socket.to('chat-' + socket.data.chat).emit('userLeft', { ...socket.data });
@@ -142,7 +171,6 @@ app.get("/signup", (req: express.Request, res: express.Response) => {
   res.render("signup");
 });
 
-//
 app.get("/inicio", (req: express.Request, res: express.Response) => {
   // Pasar el objeto 'user' a la plantilla EJS
   const user = req.user || {};
