@@ -69,14 +69,14 @@
     }
 
     .welcome-container {
-      padding: 15px; /* Añade algo de espacio */
-      text-align: center; /* Centra el texto */
-      background-color: #f0f0f0; /* Fondo claro */
+      padding: 15px; 
+      text-align: center; 
+      background-color: #f0f0f0; 
     }
 
     .welcome-container p {
-      font-size: 22px; /* Tamaño de texto más grande */
-      color: #34495e; /* Azul oscuro */
+      font-size: 22px; 
+      color: #34495e; 
     }
 
     .partidos {
@@ -110,8 +110,30 @@
       justify-content: space-between;
       width: 100%;
     }
-  </style>
 
+    .bets-section {
+      padding: 20px;
+      background-color: #ecf0f1;
+      border: 1px solid #bdc3c7;
+      box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+
+    .bets-section h2 {
+      font-size: 24px; 
+      color: #34495e; 
+    }
+
+    .bets-section pre {
+      background-color: #f5f5f5; 
+      padding: 10px; 
+      border-radius: 5px; 
+    }
+
+  </style>
+<!-- src/views/index.ejs -->
 </head>
 <body>
   <div class="header">
@@ -121,22 +143,21 @@
       <a href="/inicio/register" class="login">Registrarse</a>
       <a href="/inicio/usuario" class="login">Usuario</a>
       <form action="/inicio/upload" method="POST" enctype="multipart/form-data" style="display: inline;">
-        <label for="imageUpload">Subir Imagen</label>
-        <input type="file" id="imageUpload" name="image" accept="image/*">
-        <button type="submit">Subir</button>
+        <!-- <label for="imageUpload">Subir Imagen</label> -->
+        <!-- <input type="file" id="imageUpload" name="image" accept="image/*"> -->
+        <!-- <button type="submit">Subir</button> -->
       </form>
       <button class="chat-button" onclick="openChat()">Chat</button>
     </div>
   </div>
 
-  <!-- Contenedor para la bienvenida -->
   <div class="welcome-container"> 
     <% if (user) { %>
-      <p>Bienvenido <%= user.usuario %></p> <!-- Mensaje de bienvenida -->
+      <p>Bienvenido <%= user.usuario %></p> 
       <% if (user.email) { %> 
-        <p>Usuario: <%= user.email.split('@')[0] %></p> <!-- Muestra solo el nombre antes del "@" -->
+        <p>Usuario: <%= user.email.split('@')[0] %></p> 
       <% } else { %>
-        <p></p> <!-- Mensaje alternativo -->
+        <p></p> 
       <% } %>
     <% } else { %>
       <p>Bienvenido</p> 
@@ -144,7 +165,7 @@
     <% } %>
   </div>
 
-  <div class="partidos"> <!-- Parte que muestra los partidos -->
+  <div class="partidos"> 
     <div class="partido" onclick="showInfo('Bayern (visitante) vs Real Madrid (local), Lugar: Estadio Santiago Bernabéu, Momios: 2.5 a 1.7, Fecha: 12 de mayo de 2024')">
       <p>Bayern @ Real Madrid, 1:00</p>
       <div class="imagenes">
@@ -174,8 +195,46 @@
       </div>
     </div>
   </div>
+  <div class="bets-section">
+    <h2>Apuestas Recientes</h2>
+    <pre id="bets-content">Cargando apuestas...</pre> <!-- Donde se mostrarán las apuestas -->
+  </div>
 
   <script>
+    fetch('/inicio/bets')
+  .then(response => response.json())
+  .then(bets => {
+    const contentElement = document.getElementById('bets-content');
+    contentElement.innerHTML = ''; // Limpia el contenido existente
+
+    bets.forEach(bet => {
+      const lines = bet.content.split('\n');
+      const partyName = bet.file.replace('chat_', '').replace('.txt', '');
+
+      // Crea y añade un elemento <h3> para el nombre del partido
+      const h3 = document.createElement('h3');
+      h3.textContent = `Partido: ${partyName}`;
+      contentElement.appendChild(h3);
+
+      lines.forEach(line => {
+        if (line.trim() !== '') {
+          const contentOnly = line.split('- ')[1]; // Quita el guion al principio
+
+          // Crea y añade un elemento <p> para cada apuesta
+          const p = document.createElement('p');
+          p.textContent = `${contentOnly}`; // Usa 'contentOnly' en lugar de '- ${contentOnly}'
+          contentElement.appendChild(p);
+        }
+      });
+
+      // Añade un espacio extra después de cada partido
+      contentElement.appendChild(document.createElement('br'));
+    });
+  })
+  .catch(err => {
+    console.error('Error al cargar apuestas:', err);
+  });
+
     function openChat() {
       window.open('/index.html', 'Chat', 'width=500,height=500');
     }
@@ -184,5 +243,6 @@
       alert('Información sobre el partido: ' + partido);
     }
   </script>
+
 </body>
 </html>
