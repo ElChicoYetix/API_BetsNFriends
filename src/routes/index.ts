@@ -1,18 +1,16 @@
 // src/routes/index.ts
-
 import express from 'express';
 import passport from 'passport';
 import { getOtherIndexPage } from '../controllers/indexController';
 import { confirmationController } from '../controllers/confirmationController';
 import { getRegisterPage } from '../controllers/authController';
 import { registerController } from '../controllers/registerController';
+import { getAllBets } from '../controllers/betController';
 
 const router = express.Router();
 
 // Página de inicio
-// router.get('/', getOtherIndexPage);
-
-// Página de login con botón para Google
+router.get('/bets', getAllBets);
 router.get('/login', (req, res) => {
     res.render('login');
 });
@@ -22,16 +20,7 @@ router.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email'], // Permisos solicitados a Google
 }));
 
-// Callback de autenticación de Google
-/*
-router.get('/google/callback', // Cambia esta línea
-    passport.authenticate('google', {
-        failureRedirect: '/login', // Redirige a la página de login si falla
-    }),
-    (req, res) => {
-        res.redirect('/inicio/confirmation'); // Redirige a la página de inicio después de autenticarse con google
-    }
-);*/
+
 router.get(
     '/google/callback',
     passport.authenticate('google', {
@@ -60,10 +49,6 @@ router.get(
     });
   });
 
-
-
-
-/* Chat termina */
 // Página de registro
 router.get('/register', (req, res) => {
     res.render('register');
